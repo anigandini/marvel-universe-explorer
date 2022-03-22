@@ -11,6 +11,7 @@ import serializeCharacter from '../helpers/serializeCharacter'
 import searchIcon from '../assets/search.png'
 import Footer from '../layout/Footer'
 import Loader from '../layout/Loader'
+import md5 from 'md5'
 
 type HomeState = {
   offset: number,
@@ -38,6 +39,7 @@ const Home: NextPage<HomeState> = (props: HomeState) => {
     }
   
   }
+  //eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     handleReachEnd()
   }, []);
@@ -111,9 +113,8 @@ const Home: NextPage<HomeState> = (props: HomeState) => {
 export default Home
 
 
-export async function getStaticProps<GetStaticProps>({ params: {slug} }) {
+export async function getStaticProps<GetStaticProps> () {
   
-  var md5 = require("md5")
   const api = "http://gateway.marvel.com/v1/public/characters?orderBy=name&ts="
   const timestamp = new Date().toISOString()
   const hash = md5(timestamp + process.env.MARVEL_PRIVATE_API_KEY + process.env.NEXT_PUBLIC_MARVEL_PUBLIC_API_KEY)
@@ -130,7 +131,6 @@ export async function getStaticProps<GetStaticProps>({ params: {slug} }) {
     totalItems: data.data['data'].total,
     characters: serializedCharacthers
   }
-  console.log(`Building slug: ${slug}`)
 
   return {
     props: homeState // will be passed to the page component as props
