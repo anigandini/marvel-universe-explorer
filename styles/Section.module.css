@@ -1,0 +1,56 @@
+.container {
+    width: 100%;
+    padding: 1rem;
+    border-top: var(--border-solid);
+}
+
+.container h2 {
+    font-size: 2.5rem; 
+}
+
+.card {
+    position: relative;
+    height: 20rem;
+}
+
+.info {
+    background-color: white;
+    border: var(--border-solid);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.comics {
+    background-color: var(--color-dark-green);
+}
+
+.comics h2 {
+    color: var(--color-dark-yellow)
+}
+.series {
+    background-color: var(--color-dark-blue);
+}
+.series h2{
+    color: var(--color-dark-pink)
+}
+.events {
+    background-color: var(--color-dark-yellow);
+}
+.events h2{
+    color: var(--color-marvel-red)
+}
+.stories {
+    background-color: var(--color-dark-pink);
+}
+.stories h2{
+    color: var(--color-dark-green)
+}
+
+@media (min-width: 768px) {
+    .container h2 {
+        font-size: 3.5rem; 
+    }
+}
