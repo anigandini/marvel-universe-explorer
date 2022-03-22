@@ -39,7 +39,6 @@ const Home: NextPage<HomeState> = (props: HomeState) => {
     }
   
   }
-  //eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     handleReachEnd()
   }, []);
@@ -90,7 +89,7 @@ const Home: NextPage<HomeState> = (props: HomeState) => {
               value={searchValue}
               onChange={e => setSearchValue(e.target.value)}
               required/>
-              <button className={styles.searchButton} disabled={isSearching} type='submit'><Image src={searchIcon} width={24} height={24} /></button>
+              <button className={styles.searchButton} disabled={isSearching} type='submit'><Image src={searchIcon} width={24} height={24} alt=''/></button>
             </form>
             <div className={styles.searchBy}>
               <div>Search by</div>

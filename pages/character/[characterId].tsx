@@ -28,7 +28,7 @@ const CharacterPage : NextPage<Params & Character> = (props: Character) => {
         <>   
         <header className={styles.container}>
             <Link href={'/'}><a>Return Home</a></Link>
-            {props.image !== '' ?<figure><Image src={props.image} layout='fill' /></figure> : ''}
+            {props.image !== '' ?<figure><Image src={props.image} layout='fill' alt={props.name} /></figure> : ''}
             <div className={styles.title}>
                 <h1>{props.name}</h1>
                 <p>{props.description !== ''? props.description : 'Check my comics and series to know more about me!'}</p>
