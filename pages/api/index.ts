@@ -11,10 +11,9 @@ export default async function handler(req: Request, res: any) {
     try {
         const data = await axios.get(apiUrl)
         const characters = JSON.parse(JSON.stringify(data.data["data"].results))
-        const serializedCharacther = characters.map((character: any) =>{serializeCharacter(character, null)})
+        const serializedCharacther = characters.map((character: any) =>{serializeCharacter(character)})
         res.status(200).json(serializedCharacther)
     } catch (e) {
-        console.log(e.message)
         res.status(400).end()
     }
 }

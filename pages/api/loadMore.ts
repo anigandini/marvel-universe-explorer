@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const newCharacters = []
         const charactersToSerialize = JSON.parse(JSON.stringify(data.data["data"].results))
         for (const i in charactersToSerialize) {
-            newCharacters.push(serializeCharacter(charactersToSerialize[i], null))
+            newCharacters.push(serializeCharacter(charactersToSerialize[i]))
         }
         const response = {
             offset: data.data['data'].offset, 
@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(200).json(response)
 
     } catch {
-        console.log(res)
+        res.status(400).end()
     }
     
 }

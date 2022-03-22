@@ -19,11 +19,11 @@ type HomeState = {
   characters: Character[]
 }
 
-const Home: NextPage<HomeState> = (props: {initialData: HomeState}) => {
-  const [characters, setCharacters] = useState<Character[]>(props.initialData.characters)
-  const [offset, setOffset] = useState<number>(props.initialData.charactersPerPage)
-  const [totalCharacters, setTotalCharacters] = useState<number>(props.initialData.totalItems)
-  const [charactersPerPage, setCharactersPerPage] = useState<number>(props.initialData.charactersPerPage)
+const Home: NextPage<HomeState> = (props: HomeState) => {
+  const [characters, setCharacters] = useState<Character[]>(props.characters)
+  const [offset, setOffset] = useState<number>(props.charactersPerPage)
+  const [totalCharacters, setTotalCharacters] = useState<number>(props.totalItems)
+  const [charactersPerPage, setCharactersPerPage] = useState<number>(props.charactersPerPage)
   const [searchValue, setSearchValue] = useState<string>('')
   const [searchCriteria, setSearchCriteria] = useState<string>('character')
   const [isLoadingMore, setLoadingMore] = useState<boolean>(false)
@@ -50,7 +50,7 @@ const Home: NextPage<HomeState> = (props: {initialData: HomeState}) => {
     })
   }
 
-  const search = async(e: React.FormEvent<HTMLInputElement>) => {
+  const search = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSerching(true)
     await axios.post("/api/search", { searchCriteria, searchValue }).then((response) => {
@@ -63,7 +63,7 @@ const Home: NextPage<HomeState> = (props: {initialData: HomeState}) => {
   const clearSearchInput = () => {
     setLoadingMore(true)
     setSearchValue('')
-    setCharacters(props.initialData.characters)
+    setCharacters(props.characters)
     setLoadingMore(false)
   }
 
@@ -97,7 +97,7 @@ const Home: NextPage<HomeState> = (props: {initialData: HomeState}) => {
       <main className={styles.main}>
         {isSearching?<Loader/> : <Grid characters={characters}></Grid>}
         <div className={styles.loadMore}>
-          {searchValue === '' ?  <button  onClick={loadMore} >{isLoadingMore? 'Loading' : 'Load More'}</button> : <button disabled={isLoadingMore} onClick={clearSearchInput} >{isLoadingMore? 'Loading' : 'view all heroes'}</button>}
+          {searchValue === '' ?  <button disabled={isReachingEnd}  onClick={loadMore} >{isLoadingMore ? 'Loading' : 'Load More'}</button> : <button disabled={isLoadingMore} onClick={clearSearchInput} >{isLoadingMore? 'Loading' : 'view all heroes'}</button>}
         </div>
       </main>
       <Footer />
@@ -121,7 +121,7 @@ export async function getStaticProps<GetStaticProps>() {
   for (var i in characters){
     serializedCharacthers.push(serializeCharacter(characters[i]));
   }
-  const initialData = {
+  const homeState = {
     offset: data.data['data'].offset,
     charactersPerPage: data.data['data'].count,
     totalItems: data.data['data'].total,
@@ -129,8 +129,6 @@ export async function getStaticProps<GetStaticProps>() {
   }
 
   return {
-    props: {
-      initialData: initialData
-    } // will be passed to the page component as props
+    props: homeState // will be passed to the page component as props
   }
 }

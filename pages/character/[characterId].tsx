@@ -18,10 +18,10 @@ interface Params extends ParsedUrlQuery {
  }
 
 
-const CharacterPage : NextPage<Params> = (props: Character) => {
+const CharacterPage : NextPage<Params & Character> = (props: Character) => {
     
     const sections = props.collections?.map((collection: object) => {
-        return <Section type={Object.keys(collection)[0]} items={Object.values(collection)[0]}/>
+        return <Section key={Object.keys(collection)[0]} type={Object.keys(collection)[0]} items={Object.values(collection)[0]}/>
     })
 
     return (
@@ -54,7 +54,7 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
     }
 }
 
-export const getStaticProps: GetStaticProps<Params> = async (context) => {
+export const getStaticProps: GetStaticProps<Character, Params> = async (context) => {
     const characterId = context.params?.characterId !== undefined? context.params?.characterId.toString():''
     const timestamp = new Date().toISOString()
     const hash = md5(timestamp + process.env.MARVEL_PRIVATE_API_KEY + process.env.NEXT_PUBLIC_MARVEL_PUBLIC_API_KEY)

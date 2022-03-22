@@ -41,11 +41,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     }
             }
             for (const i in charactersToSerialize) {
-                serializedCharacters.push(serializeCharacter(charactersToSerialize[i], null))
+                serializedCharacters.push(serializeCharacter(charactersToSerialize[i]))
             }
         } else {
             for (const i in dataToSerialize) {
-                serializedCharacters.push(serializeCharacter(dataToSerialize[i], null))
+                serializedCharacters.push(serializeCharacter(dataToSerialize[i]))
             }
         }
         
@@ -53,8 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     
          
     } catch (e) {
-        console.log(e)
-        //res.status(400).end()
+        res.status(400).end()
 
     }
 }

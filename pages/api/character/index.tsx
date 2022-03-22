@@ -13,19 +13,19 @@ export default async function getCharacterController(characterId : string) {
     const requestHeaders: HeadersInit = new Headers()
     requestHeaders.set('Content-Type', 'application/json')
     const api = "http://gateway.marvel.com/v1/public/characters/" + characterId
-    const urlEnd = "?ts=" + timestamp + "&apikey=" + process.env.NEXT_PUBLIC_MARVEL_PUBLIC_API_KEY + "&hash=" + hash
+    const urlSuffix = "?ts=" + timestamp + "&apikey=" + process.env.NEXT_PUBLIC_MARVEL_PUBLIC_API_KEY + "&hash=" + hash
     
+    const res: any = await axios.get(api + urlSuffix)
     try {
-        const res = await axios.get(api + urlEnd)
         const character = JSON.parse(JSON.stringify(res.data["data"].results[0]))
         const collectionsUrls = getCollectionsUrls(character)
-        const serializedCharacter = serializeCharacter(character, collectionsUrls)
+        const serializedCharacter = serializeCharacter(character)
         let collections: any[] = []
-        if (serializedCharacter.collectionURLS) {
-            for (const url of serializedCharacter.collectionURLS) {
+        if (collectionsUrls) {
+            for (const url of collectionsUrls) {
                 const unserializedCollections = [Object.entries(url)[0]]
                 for (const collection of unserializedCollections) {
-                    const response = await axios.get(collection[1] + urlEnd)
+                    const response = await axios.get(collection[1] + urlSuffix)
                     const serializedCollection: any = []
                     for (const item of response.data.data.results) {
                         serializedCollection.push(serializeItem(item))
@@ -38,10 +38,7 @@ export default async function getCharacterController(characterId : string) {
         }
         serializedCharacter['collections'] = collections
         return serializedCharacter
-    
-
-    } catch (e) {
-        console.log(e.message)
+    } catch (e: unknown) {
         res.status(400).end()
     }
 }
