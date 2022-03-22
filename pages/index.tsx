@@ -111,7 +111,7 @@ const Home: NextPage<HomeState> = (props: HomeState) => {
 export default Home
 
 
-export async function getStaticProps<GetStaticProps>() {
+export async function getStaticProps<GetStaticProps>({ params: {slug} }) {
   
   var md5 = require("md5")
   const api = "http://gateway.marvel.com/v1/public/characters?orderBy=name&ts="
@@ -130,6 +130,7 @@ export async function getStaticProps<GetStaticProps>() {
     totalItems: data.data['data'].total,
     characters: serializedCharacthers
   }
+  console.log(`Building slug: ${slug}`)
 
   return {
     props: homeState // will be passed to the page component as props
