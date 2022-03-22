@@ -113,7 +113,7 @@ const Home: NextPage<HomeState> = (props: HomeState) => {
 export default Home
 
 
-export async function getStaticProps<GetStaticProps> () {
+export async function getStaticProps () {
   
   const api = "http://gateway.marvel.com/v1/public/characters?orderBy=name&ts="
   const timestamp = new Date().toISOString()
