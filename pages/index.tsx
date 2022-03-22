@@ -30,13 +30,16 @@ const Home: NextPage<HomeState> = (props: HomeState) => {
   const [isSearching, setIsSerching] = useState<boolean>(false)
   const [isReachingEnd, setReachingEnd] = useState<boolean>(false)
 
-  useEffect(() => {
-
+  const handleReachEnd = () => {
     if (offset === totalCharacters || offset > totalCharacters - charactersPerPage) {
       setReachingEnd(true)
     } else {
       setReachingEnd(false)
     }
+  
+  }
+  useEffect(() => {
+    handleReachEnd()
   }, []);
   
 
