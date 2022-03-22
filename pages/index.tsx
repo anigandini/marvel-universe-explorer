@@ -20,11 +20,11 @@ type HomeState = {
   characters: Character[]
 }
 
-const Home: NextPage<HomeState> = (props: HomeState) => {
-  const [characters, setCharacters] = useState<Character[]>(props.characters)
-  const [offset, setOffset] = useState<number>(props.charactersPerPage)
-  const [totalCharacters, setTotalCharacters] = useState<number>(props.totalItems)
-  const [charactersPerPage, setCharactersPerPage] = useState<number>(props.charactersPerPage)
+const Home: NextPage<HomeState> = (initialData) => {
+  const [characters, setCharacters] = useState<Character[]>(initialData.characters)
+  const [offset, setOffset] = useState<number>(initialData.charactersPerPage)
+  const [totalCharacters, setTotalCharacters] = useState<number>(initialData.totalItems)
+  const [charactersPerPage, setCharactersPerPage] = useState<number>(initialData.charactersPerPage)
   const [searchValue, setSearchValue] = useState<string>('')
   const [searchCriteria, setSearchCriteria] = useState<string>('character')
   const [isLoadingMore, setLoadingMore] = useState<boolean>(false)
@@ -67,7 +67,7 @@ const Home: NextPage<HomeState> = (props: HomeState) => {
   const clearSearchInput = () => {
     setLoadingMore(true)
     setSearchValue('')
-    setCharacters(props.characters)
+    setCharacters(initialData.characters)
     setLoadingMore(false)
   }
 
@@ -112,7 +112,7 @@ const Home: NextPage<HomeState> = (props: HomeState) => {
 export default Home
 
 
-export async function getStaticProps () {
+export const getStaticProps = async () => {
   
   const api = "http://gateway.marvel.com/v1/public/characters?orderBy=name&ts="
   const timestamp = new Date().toISOString()
@@ -132,6 +132,7 @@ export async function getStaticProps () {
   }
 
   return {
-    props: homeState // will be passed to the page component as props
+    props:  homeState
+    // will be passed to the page component as props
   }
 }
